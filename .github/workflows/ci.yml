@@ -8,16 +8,7 @@ jobs:
   cypress-run:
     name: test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        groups:
-        - name: apibank
-          specs: |
-            cypress/tests/api/api-bankaccounts.spec.ts
-            cypress/tests/api/api-banktransfers.spec.ts
-        - name: apiuser
-          specs: |
-            cypress/tests/api/api-users.spec.ts
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v6
