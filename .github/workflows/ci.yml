@@ -8,20 +8,24 @@ jobs:
   cypress-run:
     name: test
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        groups:
+        - name: api
+          specs: |
+            cypress/tests/api/api-testdata.spec.ts
     steps:
       - name: Checkout
         uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc" 
-      - name: Build app
-        run: npm run build
-      - name: Start app
-        run: npm run start &
-        shell: bash
-      - name: Wait for app (like Cypress wait-on)
-        run: npx wait-on http://localhost:3000
+      - name: Cypress run (${{ matrix.groups.name }} suites) # Installe aussi les dépendances npm
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run start
+          wait-on: http://localhost:3000
+          build: npm run build
       - name: Install Hurl
         run: |
           VERSION=7.1.0
