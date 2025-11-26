@@ -35,10 +35,6 @@ jobs:
         run: curl -L https://github.com/Orange-OpenSource/hurl/releases/latest/download/hurl-linux-x86_64.tar.gz |
       - name: Run Hurl Tests
         run: hurl -test -output results.json tests/*.hurl
-        with:
-          start: npm run start
-          wait-on: http://localhost:3000
-          build: npm run build
       - name: Upload Results
         uses: actions/upload-artifact@v5
         with:
