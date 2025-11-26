@@ -26,7 +26,11 @@ jobs:
           node-version-file: ".nvmrc" 
           
       - name: Install Hurl
-        run: npm install --save-dev @orangeopensource/hurl
+        run: |
+          curl -sSL https://pkg.hurl.dev/hurl.pubkey | sudo tee /usr/share/keyrings/hurl-archive-keyring.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/hurl-archive-keyring.gpg] https://pkg.hurl.dev/deb/ stable main" | sudo tee /etc/apt/sources.list.d/hurl.list
+          sudo apt-get update
+          sudo apt-get install -y hurl
       - name: Run Hurl Tests
         run: hurl -test -output results.json tests/*.hurl
       - name: Upload Results
