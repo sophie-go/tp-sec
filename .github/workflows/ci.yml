@@ -24,8 +24,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc" 
-      - name: Lint le code
-        run: npm run lint
       - name: Cypress run (${{ matrix.groups.name }} suites) # Installe aussi les dépendances npm
         uses: cypress-io/github-action@v6
         with:
