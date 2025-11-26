@@ -24,7 +24,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc" 
+          
       - name: Cypress run (${{ matrix.groups.name }} suites) # Installe aussi les dépendances npm
         uses: cypress-io/github-action@v6
         with:
+          start: npm run start
+          wait-on: http://localhost:3000
           build: npm run build
