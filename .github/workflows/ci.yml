@@ -27,10 +27,9 @@ jobs:
           
       - name: Install Hurl
         run: |
-          curl -sSL https://pkg.hurl.dev/hurl.pubkey | sudo tee /usr/share/keyrings/hurl-archive-keyring.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/hurl-archive-keyring.gpg] https://pkg.hurl.dev/deb/ stable main" | sudo tee /etc/apt/sources.list.d/hurl.list
-          sudo apt-get update
-          sudo apt-get install -y hurl
+          VERSION=7.1.0
+          curl --location --remote-name https://github.com/Orange-OpenSource/hurl/releases/download/$VERSION/hurl_${VERSION}_amd64.deb
+          sudo apt update && sudo apt install ./hurl_${VERSION}_amd64.deb
       - name: Run Hurl Tests
         run: hurl -test -output results.json tests/*.hurl
       - name: Upload Results
