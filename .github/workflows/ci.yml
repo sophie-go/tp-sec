@@ -1,0 +1,34 @@
+name: "CI - Tests Automatisés avec IA"
+    
+on: 
+  push:
+    branches: 
+      - sgoales
+jobs:
+  cypress-run:
+    name: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        groups:
+        - name: apibank
+          specs: |
+            cypress/tests/api/api-bankaccounts.spec.ts
+            cypress/tests/api/api-banktransfers.spec.ts
+        - name: apiuser
+          specs: |
+            cypress/tests/api/api-users.spec.ts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc" 
+      - name: Installe les dépendances
+        run: npm ci
+      - name: Lint le code
+        run: npm run lint
+      - name: Cypress run (${{ matrix.groups.name }} suites) # Installe aussi les dépendances npm
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
